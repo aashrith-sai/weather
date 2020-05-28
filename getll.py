@@ -24,9 +24,9 @@ def weather():
   
 # extracting data in json format 
     data = r.json()
-    print(data)     
+    #print(data)     
     URLf='http://api.weatherunlocked.com/api/forecast/'
     rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
     dataf=rf.json()
-    print(dataf)
+    #print(dataf)
     return data,dataf
