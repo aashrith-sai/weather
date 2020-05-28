@@ -36,7 +36,7 @@ try:
                              vis_km DOUBLE,
                              vis_mi DOUBLE,
                              slp_mb INT,
-                             slp_in DOUBLE) """
+                             slp_in DOUBLE); """
     cursor = connection.cursor()
     result = cursor.execute(mySql_Create_Table_Query)
     print("weather Table created successfully ")
