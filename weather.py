@@ -40,3 +40,5 @@ try:
     cursor = connection.cursor()
     result = cursor.execute(mySql_Create_Table_Query)
     print("weather Table created successfully ")
+except mysql.connector.Error as error:
+    print("Failed to create table in MySQL: {}".format(error))
