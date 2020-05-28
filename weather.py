@@ -38,7 +38,7 @@ try:
                              slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
     val=(c['lat'],c['lon'],
                              c['alt_m'],
-                             c['alt_f'],
+                             c['alt_ft'],
                              c['wx_desc'],
                              c['wx_code'],
                              c['wx_icon'],
