@@ -35,8 +35,8 @@ try:
                              vis_km,
                              vis_mi,
                              slp_mb,
-                             slp_in) VALUES (c['lat'],
-                             c['lon'],
+                             slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+    val=(c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_f'],
                              c['wx_desc'],
@@ -58,10 +58,9 @@ try:
                              c['vis_km'],
                              c['vis_mi'],
                              c['slp_mb'],
-                             c['slp_in']); """
-
+                             c['slp_in'])
     cursor = connection.cursor()
-    cursor.execute(mySql_insert_query)
+    cursor.execute(mySql_insert_query,val)
     connection.commit()
     print(cursor.rowcount, "Record inserted successfully into Laptop table")
     cursor.close()
