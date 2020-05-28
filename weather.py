@@ -12,7 +12,7 @@ try:
                                          user='some-mysql',
                                          password='my-secret-pw')
 
-    mySql_Create_Table_Query = """CREATE TABLE Laptop (
+    mySql_Create_Table_Query = """CREATE TABLE Current (
                              lat DOUBLE,
                              lon DOUBLE,
                              alt_m DOUBLE,
@@ -37,3 +37,6 @@ try:
                              vis_mi DOUBLE,
                              slp_mb INT,
                              slp_in DOUBLE) """
+    cursor = connection.cursor()
+    result = cursor.execute(mySql_Create_Table_Query)
+    print("weather Table created successfully ")
