@@ -35,8 +35,7 @@ try:
                              vis_km,
                              vis_mi,
                              slp_mb,
-                             slp_in) 
-                           VALUES (c['lat'],
+                             slp_in) VALUES (c['lat'],
                              c['lon'],
                              c['alt_m'],
                              c['alt_f'],
@@ -59,7 +58,7 @@ try:
                              c['vis_km'],
                              c['vis_mi'],
                              c['slp_mb'],
-                             c['slp_in']) """
+                             c['slp_in']); """
 
     cursor = connection.cursor()
     cursor.execute(mySql_insert_query)
