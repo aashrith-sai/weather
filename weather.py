@@ -7,10 +7,10 @@ import mysql.connector
 from mysql.connector import Error
 
 try:
-    connection = mysql.connector.connect(host='localhost:3306',
+    connection = mysql.connector.connect(host='localhost',
                                          database='weather',
                                          user='root',
-                                         password='my-secret-pw')
+                                         password='password')
 
     mySql_Create_Table_Query = """CREATE TABLE Current (
                              lat DOUBLE,
