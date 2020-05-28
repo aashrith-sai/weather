@@ -7,9 +7,9 @@ import mysql.connector
 from mysql.connector import Error
 
 try:
-    connection = mysql.connector.connect(host='localhost',
+    connection = mysql.connector.connect(host='localhost:3306',
                                          database='weather',
-                                         user='some-mysql',
+                                         user='root',
                                          password='my-secret-pw')
 
     mySql_Create_Table_Query = """CREATE TABLE Current (
