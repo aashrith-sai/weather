@@ -13,7 +13,7 @@ try:
                                          user='root',
                                          password='password')
 
-    query1=""" CREATE TABLE IF NOT EXISTS 'weather'.'Current'('lat' DOUBLE,
+    query1=""" CREATE TABLE IF NOT EXISTS Current('lat' DOUBLE,
                              'lon' DOUBLE,
                              'alt_m' DOUBLE,
                              'alt_f' DOUBLE,
@@ -85,7 +85,7 @@ try:
                              c['slp_mb'],
                              c['slp_in'])
 
-    query2=""" CREATE TABLE IF NOT EXISTS 'weather'.'Forecast'( 'date' DATE,
+    query2=""" CREATE TABLE IF NOT EXISTS Forecast( 'date' DATE,
             'sunrise_time' TIME,
             'sunset_time' TIME,
             'moonrise_time' TIME,
