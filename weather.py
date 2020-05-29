@@ -8,10 +8,10 @@ from mysql.connector import Error
 
 try:
     
-    connection = mysql.connector.connect(host='localhost',
+    connection = mysql.connector.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
                                          database='weather',
-                                         user='root',
-                                         password='password')
+                                         user='admin',
+                                         password="9!srR}G'PgD+R%cD")
 
     query1=""" CREATE TABLE IF NOT EXISTS Current(lat DOUBLE,
                              lon DOUBLE,
