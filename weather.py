@@ -85,7 +85,7 @@ try:
                              c['slp_mb'],
                              c['slp_in'])
 
-    query2=""" CREATE TABLE IF NOT EXISTS Forecast(date DATE,
+    query2=""" CREATE TABLE IF NOT EXISTS Forecast(date VARCHAR(10),
                             sunrise_time TIME,
                             sunset_time TIME,
                             moonrise_time TIME,
