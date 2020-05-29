@@ -86,10 +86,10 @@ try:
                              c['slp_in'])
 
     query2=""" CREATE TABLE IF NOT EXISTS Forecast(date VARCHAR(10),
-                            sunrise_time TIME,
-                            sunset_time TIME,
-                            moonrise_time TIME,
-                            moonset_time TIME,
+                            sunrise_time VARCHAR(10),
+                            sunset_time VARCHAR(10),
+                            moonrise_time VARCHAR(10),
+                            moonset_time VARCHAR(10),
                             temp_max_c DOUBLE,
                             temp_max_f DOUBLE,
                             temp_min_c DOUBLE,
