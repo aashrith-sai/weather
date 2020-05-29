@@ -1,7 +1,7 @@
 from getll import weather
 
 c,forecast=weather()
-print(c)
+print(forecast)
 
 import mysql.connector
 from mysql.connector import Error
