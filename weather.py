@@ -157,7 +157,7 @@ try:
             slp_max_mb,
             slp_min_in,
             slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-        val=('abd',
+        val=("abd",
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
