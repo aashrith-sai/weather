@@ -85,7 +85,7 @@ try:
                              c['slp_mb'],
                              c['slp_in'])
 
-    query2=""" CREATE TABLE IF NOT EXISTS Forecast(date VARCHAR(20),
+    query2=""" CREATE TABLE IF NOT EXISTS Forecast(
                             sunrise_time VARCHAR(10),
                             sunset_time VARCHAR(10),
                             moonrise_time VARCHAR(10),
@@ -127,7 +127,7 @@ try:
     cursor.execute(query3)
     connection.commit()
     for i in range(7):
-        query4="""INSERT INTO Forecast (date,
+        query4="""INSERT INTO Forecast (
             sunrise_time,
             sunset_time,
             moonrise_time,
@@ -156,8 +156,8 @@ try:
             slp_max_in,
             slp_max_mb,
             slp_min_in,
-            slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-        val=(f['Days'][i]['date'],
+            slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
+        val=(
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
