@@ -3,43 +3,8 @@
 from  geopy.geocoders import Nominatim
 import requests
 import pgeocode
-
-nomi = pgeocode.Nominatim('us')
-loc=nomi.query_postal_code("77840")
-
-#geolocator = Nominatim()
-#city = input('Enter city: ')
-#country =input('Enter country: ')
-#loc = geolocator.geocode(city+','+ country)
-#print("latitude is :-" ,loc.latitude,"\nlongtitude is:-" ,loc.longitude)
-  
-# api-endpoint 
-URL = "http://api.weatherunlocked.com/api/current/"
-  
-# defining a params dict for the parameters to be sent to the API 
-appID='f134de62'
-appKey='37ed7f8fb3d413880a6659c6240272d6'
-PARAMS = { 'app_id': appID, 'app_key': appKey} 
-  
-# sending get request and saving the response as response object 
-r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-  
-# extracting data in json format 
-data = r.json()
-#print(data)     
-URLf='http://api.weatherunlocked.com/api/forecast/'
-rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-dataf=rf.json()
-#print(dataf)
-c,f= data,dataf
-
-#c,f=weather()
-#print(f)
-
 import mysql.connector
 from mysql.connector import Error
-
-
 
 try:
     
@@ -47,11 +12,6 @@ try:
                                          database='weather',
                                          user='admin',
                                          password="9!srR}G'PgD+R%cD")
-    zip=[]
-    mycursor = connection.cursor()
-    mycursor.execute("SELECT zipcode FROM zip")
-    zip=mycursor.fetchall()
-    print(zip[0][0])
     query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
@@ -80,7 +40,27 @@ try:
     cursor = connection.cursor()
     cursor.execute(query1)
     connection.commit()
+
+    mycursor = connection.cursor()
+    mycursor.execute("SELECT zipcode FROM zip")
+    zip=mycursor.fetchall()
+    print(zip[0][0])
+
     for i in range(len(zip)):
+
+        nomi = pgeocode.Nominatim('us')
+        loc=nomi.query_postal_code(str(zip[i][0]))
+        URL = "http://api.weatherunlocked.com/api/current/"
+        appID='f134de62'
+        appKey='37ed7f8fb3d413880a6659c6240272d6'
+        PARAMS = { 'app_id': appID, 'app_key': appKey} 
+        r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        data = r.json()
+        URLf='http://api.weatherunlocked.com/api/forecast/'
+        rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        dataf=rf.json()
+        c,f= data,dataf
+
         mySql_insert_query = """INSERT INTO Current (zip,
                              lat,
                              lon,
@@ -164,13 +144,23 @@ try:
                             slp_min_mb INT);"""
     query3="""DELETE FROM Forecast;"""
 
-    
-    
     cursor.execute(query2)
     connection.commit()
     cursor.execute(query3)
     connection.commit()
     for j in range(len(zip)):
+        nomi = pgeocode.Nominatim('us')
+        loc=nomi.query_postal_code(str(zip[i][0]))
+        URL = "http://api.weatherunlocked.com/api/current/"
+        appID='f134de62'
+        appKey='37ed7f8fb3d413880a6659c6240272d6'
+        PARAMS = { 'app_id': appID, 'app_key': appKey} 
+        r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        data = r.json()
+        URLf='http://api.weatherunlocked.com/api/forecast/'
+        rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        dataf=rf.json()
+        c,f= data,dataf
         for i in range(7):
             query4="""INSERT INTO Forecast (zip,date,
             sunrise_time,
@@ -239,3 +229,6 @@ try:
 
 except mysql.connector.Error as error:
     print("Failed to create table in MySQL: {}".format(error))
+
+
+
