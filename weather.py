@@ -98,7 +98,7 @@ try:
                              vis_km,
                              vis_mi,
                              slp_mb,
-                             slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+                             slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
     val=(zip,c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_ft'],
@@ -194,7 +194,7 @@ try:
             slp_max_in,
             slp_max_mb,
             slp_min_in,
-            slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
+            slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
         val=(zip,f['Days'][i]['date'],
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
