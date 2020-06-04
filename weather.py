@@ -168,7 +168,7 @@ try:
     connection.commit()
     cursor.execute(query3)
     connection.commit()
-    for i in range(len(zip)):
+    for j in range(len(zip)):
         for i in range(7):
             query4="""INSERT INTO Forecast (zip,date,
             sunrise_time,
@@ -200,7 +200,7 @@ try:
             slp_max_mb,
             slp_min_in,
             slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-            val=(zip[i][0],f['Days'][i]['date'],
+            val=(zip[j][0],f['Days'][i]['date'],
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
