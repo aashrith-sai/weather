@@ -1,10 +1,45 @@
-from getll import weather
+#from getll import weather
 
-c,f=weather()
+from  geopy.geocoders import Nominatim
+import requests
+import pgeocode
+
+nomi = pgeocode.Nominatim('us')
+loc=nomi.query_postal_code("77840")
+
+#geolocator = Nominatim()
+#city = input('Enter city: ')
+#country =input('Enter country: ')
+#loc = geolocator.geocode(city+','+ country)
+#print("latitude is :-" ,loc.latitude,"\nlongtitude is:-" ,loc.longitude)
+  
+# api-endpoint 
+URL = "http://api.weatherunlocked.com/api/current/"
+  
+# defining a params dict for the parameters to be sent to the API 
+appID='f134de62'
+appKey='37ed7f8fb3d413880a6659c6240272d6'
+PARAMS = { 'app_id': appID, 'app_key': appKey} 
+  
+# sending get request and saving the response as response object 
+r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+  
+# extracting data in json format 
+data = r.json()
+#print(data)     
+URLf='http://api.weatherunlocked.com/api/forecast/'
+rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+dataf=rf.json()
+#print(dataf)
+c,f= data,dataf
+
+#c,f=weather()
 #print(f)
 
 import mysql.connector
 from mysql.connector import Error
+
+
 
 try:
     
@@ -12,8 +47,10 @@ try:
                                          database='weather',
                                          user='admin',
                                          password="9!srR}G'PgD+R%cD")
+    zip=77840
 
-    query1=""" CREATE TABLE IF NOT EXISTS Current(lat DOUBLE,
+    query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
+                             lat DOUBLE,
                              lon DOUBLE,
                              alt_m DOUBLE,
                              alt_f DOUBLE,
@@ -37,7 +74,8 @@ try:
                              vis_mi DOUBLE,
                              slp_mb INT,
                              slp_in DOUBLE);"""
-    mySql_insert_query = """INSERT INTO Current (lat,
+    mySql_insert_query = """INSERT INTO Current (zip,
+                             lat,
                              lon,
                              alt_m,
                              alt_f,
@@ -61,7 +99,7 @@ try:
                              vis_mi,
                              slp_mb,
                              slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-    val=(c['lat'],c['lon'],
+    val=(zip,c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_ft'],
                              c['wx_desc'],
@@ -85,7 +123,7 @@ try:
                              c['slp_mb'],
                              c['slp_in'])
 
-    query2=""" CREATE TABLE IF NOT EXISTS Forecast(date VARCHAR(20),
+    query2=""" CREATE TABLE IF NOT EXISTS Forecast(zip VARCHAR(8),date VARCHAR(20),
                             sunrise_time VARCHAR(10),
                             sunset_time VARCHAR(10),
                             moonrise_time VARCHAR(10),
@@ -127,7 +165,7 @@ try:
     cursor.execute(query3)
     connection.commit()
     for i in range(7):
-        query4="""INSERT INTO Forecast (date,
+        query4="""INSERT INTO Forecast (zip,date,
             sunrise_time,
             sunset_time,
             moonrise_time,
@@ -157,7 +195,7 @@ try:
             slp_max_mb,
             slp_min_in,
             slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-        val=(f['Days'][i]['date'],
+        val=(zip,f['Days'][i]['date'],
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
