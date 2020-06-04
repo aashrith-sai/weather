@@ -47,8 +47,11 @@ try:
                                          database='weather',
                                          user='admin',
                                          password="9!srR}G'PgD+R%cD")
-    zip=77840
-
+    zip=[]
+    mycursor = connection.cursor()
+    mycursor.execute("SELECT zipcode FROM zip")
+    zip.append(mycursor.fetchall())
+    print(zip)
     query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
@@ -74,7 +77,8 @@ try:
                              vis_mi DOUBLE,
                              slp_mb INT,
                              slp_in DOUBLE);"""
-    mySql_insert_query = """INSERT INTO Current (zip,
+    for i in range(len(zip)):
+        mySql_insert_query = """INSERT INTO Current (zip,
                              lat,
                              lon,
                              alt_m,
@@ -99,7 +103,7 @@ try:
                              vis_mi,
                              slp_mb,
                              slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-    val=(zip,c['lat'],c['lon'],
+        val=(zip[i],c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_ft'],
                              c['wx_desc'],
@@ -164,8 +168,9 @@ try:
     connection.commit()
     cursor.execute(query3)
     connection.commit()
-    for i in range(7):
-        query4="""INSERT INTO Forecast (zip,date,
+    for i in range(len(zip)):
+        for i in range(7):
+            query4="""INSERT INTO Forecast (zip,date,
             sunrise_time,
             sunset_time,
             moonrise_time,
@@ -195,7 +200,7 @@ try:
             slp_max_mb,
             slp_min_in,
             slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-        val=(zip,f['Days'][i]['date'],
+            val=(zip[i],f['Days'][i]['date'],
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
@@ -225,9 +230,9 @@ try:
             f['Days'][i]['slp_max_mb'],
             f['Days'][i]['slp_min_in'],
             f['Days'][i]['slp_min_mb'] )
-        cursor.execute(query4,val)
-        connection.commit()
-    print(cursor.rowcount, "Record inserted successfully into Laptop table")
+            cursor.execute(query4,val)
+            connection.commit()
+    print(cursor.rowcount, "Records inserted successfully into tables")
     cursor.close()
 
 except mysql.connector.Error as error:
