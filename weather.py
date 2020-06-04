@@ -50,7 +50,7 @@ try:
     zip=[]
     mycursor = connection.cursor()
     mycursor.execute("SELECT zipcode FROM zip")
-    zip.append(mycursor.fetchall())
+    zip=mycursor.fetchall()
     print(zip)
     query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
