@@ -77,6 +77,9 @@ try:
                              vis_mi DOUBLE,
                              slp_mb INT,
                              slp_in DOUBLE);"""
+    cursor = connection.cursor()
+    cursor.execute(query1)
+    connection.commit()
     for i in range(len(zip)):
         mySql_insert_query = """INSERT INTO Current (zip,
                              lat,
@@ -126,6 +129,8 @@ try:
                              c['vis_mi'],
                              c['slp_mb'],
                              c['slp_in'])
+        cursor.execute(mySql_insert_query,val)
+        connection.commit()
 
     query2=""" CREATE TABLE IF NOT EXISTS Forecast(zip VARCHAR(8),date VARCHAR(20),
                             sunrise_time VARCHAR(10),
@@ -159,11 +164,8 @@ try:
                             slp_min_mb INT);"""
     query3="""DELETE FROM Forecast;"""
 
-    cursor = connection.cursor()
-    cursor.execute(query1)
-    connection.commit()
-    cursor.execute(mySql_insert_query,val)
-    connection.commit()
+    
+    
     cursor.execute(query2)
     connection.commit()
     cursor.execute(query3)
