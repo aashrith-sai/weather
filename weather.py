@@ -103,7 +103,7 @@ try:
                              vis_mi,
                              slp_mb,
                              slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-        val=(zip[i],c['lat'],c['lon'],
+        val=(zip[i][0],c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_ft'],
                              c['wx_desc'],
@@ -200,7 +200,7 @@ try:
             slp_max_mb,
             slp_min_in,
             slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-            val=(zip[i],f['Days'][i]['date'],
+            val=(zip[i][0],f['Days'][i]['date'],
             f['Days'][i]['sunrise_time'],
             f['Days'][i]['sunset_time'],
             f['Days'][i]['moonrise_time'],
