@@ -1,6 +1,6 @@
 #from getll import weather
 
-from  geopy.geocoders import Nominatim
+
 import requests
 import pgeocode
 import mysql.connector
