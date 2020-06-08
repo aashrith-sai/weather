@@ -1,14 +1,13 @@
 import json
-import mysql.connector
 import requests
 import pgeocode
-from mysql.connector import Error
+import pymysql
 
 def lambda_handler(event, context):
     # TODO implement
     try:
     
-        connection = mysql.connector.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
+        connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
                                          database='weather',
                                          user='admin',
                                          password="9!srR}G'PgD+R%cD")
