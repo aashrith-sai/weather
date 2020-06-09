@@ -4,14 +4,11 @@ import pgeocode
 import pymysql
 
 def lambda_handler(event, context):
-    # TODO implement
-    try:
-    
-        connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
+    connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
                                          database='weather',
                                          user='admin',
                                          password="9!srR}G'PgD+R%cD")
-        query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
+    query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
                              alt_m DOUBLE,
@@ -36,31 +33,31 @@ def lambda_handler(event, context):
                              vis_mi DOUBLE,
                              slp_mb INT,
                              slp_in DOUBLE);"""
-        cursor = connection.cursor()
-        cursor.execute(query1)
-        connection.commit()
+    cursor = connection.cursor()
+    cursor.execute(query1)
+    connection.commit()
 
-        mycursor = connection.cursor()
-        mycursor.execute("SELECT zipcode FROM zip")
-        zip=mycursor.fetchall()
-        #print(zip[0][0])
+    mycursor = connection.cursor()
+    mycursor.execute("SELECT zipcode FROM zip")
+    zip=mycursor.fetchall()
+    #print(zip[0][0])
 
-        for i in range(len(zip)):
+    for i in range(len(zip)):
 
-            nomi = pgeocode.Nominatim('us')
-            loc=nomi.query_postal_code(str(zip[i][0]))
-            URL = "http://api.weatherunlocked.com/api/current/"
-            appID='f134de62'
-            appKey='37ed7f8fb3d413880a6659c6240272d6'
-            PARAMS = { 'app_id': appID, 'app_key': appKey} 
-            r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-            data = r.json()
-            URLf='http://api.weatherunlocked.com/api/forecast/'
-            rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-            dataf=rf.json()
-            c,f= data,dataf
+        nomi = pgeocode.Nominatim('us')
+        loc=nomi.query_postal_code(str(zip[i][0]))
+        URL = "http://api.weatherunlocked.com/api/current/"
+        appID='f134de62'
+        appKey='37ed7f8fb3d413880a6659c6240272d6'
+        PARAMS = { 'app_id': appID, 'app_key': appKey} 
+        r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        data = r.json()
+        URLf='http://api.weatherunlocked.com/api/forecast/'
+        rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        dataf=rf.json()
+        c,f= data,dataf
 
-            mySql_insert_query = """INSERT INTO Current (zip,
+        mySql_insert_query = """INSERT INTO Current (zip,
                              lat,
                              lon,
                              alt_m,
@@ -85,7 +82,7 @@ def lambda_handler(event, context):
                              vis_mi,
                              slp_mb,
                              slp_in) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
-            val=(zip[i][0],c['lat'],c['lon'],
+        val=(zip[i][0],c['lat'],c['lon'],
                              c['alt_m'],
                              c['alt_ft'],
                              c['wx_desc'],
@@ -108,10 +105,10 @@ def lambda_handler(event, context):
                              c['vis_mi'],
                              c['slp_mb'],
                              c['slp_in'])
-            cursor.execute(mySql_insert_query,val)
-            connection.commit()
+        cursor.execute(mySql_insert_query,val)
+        connection.commit()
 
-        query2=""" CREATE TABLE IF NOT EXISTS Forecast(zip VARCHAR(8),date VARCHAR(20),
+    query2=""" CREATE TABLE IF NOT EXISTS Forecast(zip VARCHAR(8),date VARCHAR(20),
                             sunrise_time VARCHAR(10),
                             sunset_time VARCHAR(10),
                             moonrise_time VARCHAR(10),
@@ -141,27 +138,27 @@ def lambda_handler(event, context):
                             slp_max_mb INT,
                             slp_min_in DOUBLE,
                             slp_min_mb INT);"""
-        query3="""DELETE FROM Forecast;"""
+    query3="""DELETE FROM Forecast;"""
 
-        cursor.execute(query2)
-        connection.commit()
-        cursor.execute(query3)
-        connection.commit()
-        for j in range(len(zip)):
-            nomi = pgeocode.Nominatim('us')
-            loc=nomi.query_postal_code(str(zip[j][0]))
-            URL = "http://api.weatherunlocked.com/api/current/"
-            appID='f134de62'
-            appKey='37ed7f8fb3d413880a6659c6240272d6'
-            PARAMS = { 'app_id': appID, 'app_key': appKey} 
-            r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-            data = r.json()
-            URLf='http://api.weatherunlocked.com/api/forecast/'
-            rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
-            dataf=rf.json()
-            c,f= data,dataf
-            for i in range(7):
-                query4="""INSERT INTO Forecast (zip,date,
+    cursor.execute(query2)
+    connection.commit()
+    cursor.execute(query3)
+    connection.commit()
+    for j in range(len(zip)):
+        nomi = pgeocode.Nominatim('us')
+        loc=nomi.query_postal_code(str(zip[j][0]))
+        URL = "http://api.weatherunlocked.com/api/current/"
+        appID='f134de62'
+        appKey='37ed7f8fb3d413880a6659c6240272d6'
+        PARAMS = { 'app_id': appID, 'app_key': appKey} 
+        r = requests.get(url = URL+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        data = r.json()
+        URLf='http://api.weatherunlocked.com/api/forecast/'
+        rf = requests.get(url = URLf+str(loc.latitude)+','+str(loc.longitude), params = PARAMS) 
+        dataf=rf.json()
+        c,f= data,dataf
+        for i in range(7):
+            query4="""INSERT INTO Forecast (zip,date,
                 sunrise_time,
                 sunset_time,
                 moonrise_time,
@@ -191,7 +188,7 @@ def lambda_handler(event, context):
                 slp_max_mb,
                 slp_min_in,
                 slp_min_mb ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
-                val=(zip[j][0],f['Days'][i]['date'],
+            val=(zip[j][0],f['Days'][i]['date'],
                 f['Days'][i]['sunrise_time'],
                 f['Days'][i]['sunset_time'],
                 f['Days'][i]['moonrise_time'],
@@ -221,13 +218,10 @@ def lambda_handler(event, context):
                 f['Days'][i]['slp_max_mb'],
                 f['Days'][i]['slp_min_in'],
                 f['Days'][i]['slp_min_mb'] )
-                cursor.execute(query4,val)
-                connection.commit()
-        print(cursor.rowcount, "Records inserted successfully into tables")
-        cursor.close()
-
-    except mysql.connector.Error as error:
-        print("Failed to create table in MySQL: {}".format(error))
+            cursor.execute(query4,val)
+            connection.commit()
+    print(cursor.rowcount, "Records inserted successfully into tables")
+    cursor.close()
     
     return {
         'statusCode': 200,
