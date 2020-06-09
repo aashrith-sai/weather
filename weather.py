@@ -3,7 +3,6 @@
 
 import requests
 import pymysql
-import pgeocode
 import json
 
 connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',

@@ -1,6 +1,6 @@
 import json
 import requests
-import pgeocode
+
 import pymysql
 
 def lambda_handler(event, context):
