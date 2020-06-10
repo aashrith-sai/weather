@@ -6,7 +6,7 @@ def lambda_handler(event, context):
     connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
                                          database='weather',
                                          user='admin',
-                                         password="9!srR}G'PgD+R%cD")
+                                         password="W91L82C73")
     query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
