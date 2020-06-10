@@ -163,7 +163,7 @@ def lambda_handler(event, context):
         r = requests.get(url = URL+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
         data = r.json()
         URLf='http://api.weatherunlocked.com/api/forecast/'
-        rf = requests.get(url = URLf+str(zipcode.lat)+','+str(zipcode.lng), params = PARAMS) 
+        rf = requests.get(url = URLf+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
         dataf=rf.json()
         c,f= data,dataf
         for i in range(7):
