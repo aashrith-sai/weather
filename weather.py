@@ -8,7 +8,7 @@ import json
 connection = pymysql.connect(host='public-data-1.c9omh8sjvlrw.us-east-2.rds.amazonaws.com',
                                          database='weather',
                                          user='admin',
-                                         password="9!srR}G'PgD+R%cD")
+                                         password="W91L82C73")
 query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
@@ -44,19 +44,21 @@ zip=mycursor.fetchall()
     #print(zip[0][0])
 
 for i in range(len(zip)):
-    from uszipcode import SearchEngine
-    search = SearchEngine(simple_zipcode=True) # set simple_zipcode=False to use rich info databas
-    zipcode = search.by_zipcode(str(zip[i][0]))
+    #from uszipcode import SearchEngine
+    #search = SearchEngine(simple_zipcode=True) # set simple_zipcode=False to use rich info databas
+    #zipcode = search.by_zipcode(str(zip[i][0]))
         #nomi = pgeocode.Nominatim('us')
+    a=requests.get('https://www.zipcodeapi.com/rest/jHipGcuFReWZwhW6w1JjPCxK7lj7tG2rQR7GlGwweaGFHcbeeyH4HXpXvANoQebG/info.json/'+str(zip[i][0])+'/degrees')
+    b=a.json()
         #loc=nomi.query_postal_code(str(zip[i][0]))
     URL = "http://api.weatherunlocked.com/api/current/"
     appID='f134de62'
     appKey='37ed7f8fb3d413880a6659c6240272d6'
     PARAMS = { 'app_id': appID, 'app_key': appKey} 
-    r = requests.get(url = URL+str(zipcode.lat)+','+str(zipcode.lng), params = PARAMS) 
+    r = requests.get(url = URL+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
     data = r.json()
     URLf='http://api.weatherunlocked.com/api/forecast/'
-    rf = requests.get(url = URLf+str(zipcode.lat)+','+str(zipcode.lng), params = PARAMS) 
+    rf = requests.get(url = URLf+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
     dataf=rf.json()
     c,f= data,dataf
 
@@ -148,18 +150,20 @@ connection.commit()
 cursor.execute(query3)
 connection.commit()
 for j in range(len(zip)):
-    search = SearchEngine(simple_zipcode=True) # set simple_zipcode=False to use rich info databas
-    zipcode = search.by_zipcode(str(zip[j][0]))
+    #search = SearchEngine(simple_zipcode=True) # set simple_zipcode=False to use rich info databas
+    #zipcode = search.by_zipcode(str(zip[j][0]))
+    a=requests.get('https://www.zipcodeapi.com/rest/jHipGcuFReWZwhW6w1JjPCxK7lj7tG2rQR7GlGwweaGFHcbeeyH4HXpXvANoQebG/info.json/'+str(zip[j][0])+'/degrees')
+    b=a.json()
     #nomi = pgeocode.Nominatim('us')
     #loc=nomi.query_postal_code(str(zip[j][0]))
     URL = "http://api.weatherunlocked.com/api/current/"
     appID='f134de62'
     appKey='37ed7f8fb3d413880a6659c6240272d6'
     PARAMS = { 'app_id': appID, 'app_key': appKey} 
-    r = requests.get(url = URL+str(zipcode.lat)+','+str(zipcode.lng), params = PARAMS) 
+    r = requests.get(url = URL+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
     data = r.json()
     URLf='http://api.weatherunlocked.com/api/forecast/'
-    rf = requests.get(url = URLf+str(zipcode.lat)+','+str(zipcode.lng), params = PARAMS) 
+    rf = requests.get(url = URLf+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
     dataf=rf.json()
     c,f= data,dataf
     for i in range(7):
