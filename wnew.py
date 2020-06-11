@@ -168,8 +168,7 @@ def lambda_handler(event, context):
         cursor.execute(sql)
         connection.commit()
         ll=cursor.fetchall()
-        #nomi = pgeocode.Nominatim('us')
-        #loc=nomi.query_postal_code(str(zip[j][0]))
+        
         URL = "http://api.weatherunlocked.com/api/current/"
         appID='f134de62'
         appKey='37ed7f8fb3d413880a6659c6240272d6'
