@@ -48,18 +48,26 @@ def lambda_handler(event, context):
         #zipcode = search.by_zipcode(str(zip[i][0]))
         #nomi = pgeocode.Nominatim('us')
         #loc=nomi.query_postal_code(str(zip[i][0]))
-        a=requests.get('https://www.zipcodeapi.com/rest/X4IaP07pKb186Bs4KZcWPubTq1s4DNjlJUVPBnNyc7qmBf0rC7IrBGcBAIpkfS5U/info.json/'+str(77840)+'/degrees')
-        b=a.json()
+        #a=requests.get('https://www.zipcodeapi.com/rest/X4IaP07pKb186Bs4KZcWPubTq1s4DNjlJUVPBnNyc7qmBf0rC7IrBGcBAIpkfS5U/info.json/'+str(77840)+'/degrees')
+        #b=a.json()
+
+        sql='SELECT lat,lng FROM weather.uszips WHERE zip='+str(zip[i][0])
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        ll=cursor.fetchall()
+
+
         #print(b)
 
         URL = "http://api.weatherunlocked.com/api/current/"
         appID='f134de62'
         appKey='37ed7f8fb3d413880a6659c6240272d6'
         PARAMS = { 'app_id': appID, 'app_key': appKey} 
-        r = requests.get(url = URL+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
+        r = requests.get(url = URL+str(ll[0][0])+','+str(ll[0][1]), params = PARAMS) 
         data = r.json()
         URLf='http://api.weatherunlocked.com/api/forecast/'
-        rf = requests.get(url = URLf+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
+        rf = requests.get(url = URLf+str(ll[0][0])+','+str(ll[0][1]), params = PARAMS) 
         dataf=rf.json()
         c,f= data,dataf
 
@@ -153,18 +161,23 @@ def lambda_handler(event, context):
     for j in range(len(zip)):
         #search = SearchEngine(simple_zipcode=True) # set simple_zipcode=False to use rich info databas
         #zipcode = search.by_zipcode(str(zip[j][0]))
-        a=requests.get('https://www.zipcodeapi.com/rest/X4IaP07pKb186Bs4KZcWPubTq1s4DNjlJUVPBnNyc7qmBf0rC7IrBGcBAIpkfS5U/info.json/'+str(zip[j][0])+'/degrees')
-        b=a.json()
+        #a=requests.get('https://www.zipcodeapi.com/rest/X4IaP07pKb186Bs4KZcWPubTq1s4DNjlJUVPBnNyc7qmBf0rC7IrBGcBAIpkfS5U/info.json/'+str(zip[j][0])+'/degrees')
+        #b=a.json()
+        sql='SELECT lat,lng FROM weather.uszips WHERE zip='+str(zip[j][0])
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        ll=cursor.fetchall()
         #nomi = pgeocode.Nominatim('us')
         #loc=nomi.query_postal_code(str(zip[j][0]))
         URL = "http://api.weatherunlocked.com/api/current/"
         appID='f134de62'
         appKey='37ed7f8fb3d413880a6659c6240272d6'
         PARAMS = { 'app_id': appID, 'app_key': appKey} 
-        r = requests.get(url = URL+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
+        r = requests.get(url = URL+str(ll[0][0])+','+str(ll[0][1]), params = PARAMS) 
         data = r.json()
         URLf='http://api.weatherunlocked.com/api/forecast/'
-        rf = requests.get(url = URLf+str(b['lat'])+','+str(b['lng']), params = PARAMS) 
+        rf = requests.get(url = URLf+str(ll[0][0])+','+str(ll[0][1]), params = PARAMS) 
         dataf=rf.json()
         c,f= data,dataf
         for i in range(7):
