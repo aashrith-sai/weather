@@ -47,9 +47,9 @@ def lambda_handler(event, context):
         #zipcode = search.by_zipcode(str(zip[i][0]))
         #nomi = pgeocode.Nominatim('us')
         #loc=nomi.query_postal_code(str(zip[i][0]))
-        a=requests.get('https://www.zipcodeapi.com/rest/jHipGcuFReWZwhW6w1JjPCxK7lj7tG2rQR7GlGwweaGFHcbeeyH4HXpXvANoQebG/info.json/'+str(zip[i][0])+'/degrees')
+        a=requests.get('https://www.zipcodeapi.com/rest/X4IaP07pKb186Bs4KZcWPubTq1s4DNjlJUVPBnNyc7qmBf0rC7IrBGcBAIpkfS5U/info.json/'+str(zip[i][0])+'/degrees')
         b=a.json()
-
+        print(b)
 
         URL = "http://api.weatherunlocked.com/api/current/"
         appID='f134de62'
