@@ -7,6 +7,7 @@ def lambda_handler(event, context):
                                          database='weather',
                                          user='admin',
                                          password="W91L82C73")
+    #hhhaid
     query1=""" CREATE TABLE IF NOT EXISTS Current(zip VARCHAR(8),
                              lat DOUBLE,
                              lon DOUBLE,
